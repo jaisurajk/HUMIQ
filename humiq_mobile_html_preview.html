@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HUMIQ Mobile HTML Preview</title>
+    <style>
+      :root {
+        --page: #eef2f0;
+        --ink: #111827;
+        --muted: #64748b;
+        --line: #dbe4df;
+        --card: #ffffff;
+        --soft: #f8fafc;
+        --blue: #2563eb;
+        --blue-soft: #dbeafe;
+        --green: #15803d;
+        --green-soft: #dcfce7;
+        --amber: #b45309;
+        --amber-soft: #fef3c7;
+        --red: #b91c1c;
+        --red-soft: #fee2e2;
+        --shadow: 0 24px 80px rgba(15, 23, 42, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--page);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .deck {
+        width: min(1280px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 18px 0 56px;
+      }
+
+      .demo-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 0 16px;
+        background: rgba(238, 242, 240, 0.95);
+        backdrop-filter: blur(12px);
+      }
+
+      .demo-tabs a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 8px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 999px;
+        background: var(--card);
+        color: #334155;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.7fr) minmax(280px, 1fr);
+        gap: 24px;
+        align-items: end;
+        padding: 24px 0 12px;
+      }
+
+      .intro h1 {
+        margin: 0;
+        max-width: 560px;
+        font-size: clamp(34px, 5vw, 64px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .intro p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .review-card {
+        display: grid;
+        gap: 10px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .review-card strong {
+        display: block;
+      }
+
+      .review-card span {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .section {
+        padding-top: 30px;
+      }
+
+      .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 18px;
+        margin-bottom: 14px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 36px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        max-width: 540px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .comparison-grid,
+      .screen-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(330px, 1fr));
+        gap: 24px;
+        align-items: start;
+      }
+
+      .screen-grid.three {
+        grid-template-columns: repeat(3, minmax(300px, 1fr));
+      }
+
+      .screen-label {
+        width: min(390px, 100%);
+        margin: 0 auto 9px;
+        color: #334155;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .phone {
+        width: min(390px, 100%);
+        min-height: 844px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        border: 8px solid #111827;
+        border-radius: 34px;
+        background: var(--soft);
+        box-shadow: var(--shadow);
+      }
+
+      .phone.no-nav .app {
+        padding-bottom: 18px;
+      }
+
+      .status {
+        height: 34px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 22px;
+        background: var(--soft);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .app {
+        padding: 16px;
+        padding-bottom: 88px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .brand {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .subline {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .pill,
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 28px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .pill {
+        background: var(--blue-soft);
+        color: #1d4ed8;
+      }
+
+      .badge.green {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .badge.blue {
+        background: var(--blue-soft);
+        color: #1d4ed8;
+      }
+
+      .badge.amber {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .badge.red {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .hero {
+        padding: 22px;
+        border: 1px solid #e2e8f0;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #ffffff 0%, #eef6ff 100%);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      }
+
+      .hero h3 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        line-height: 1.06;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 48px;
+        margin-top: 14px;
+        border: 0;
+        border-radius: 14px;
+        background: var(--blue);
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .button.secondary {
+        border: 1px solid #bfdbfe;
+        background: #ffffff;
+        color: var(--blue);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+        margin-top: 14px;
+      }
+
+      .metric {
+        min-height: 78px;
+        padding: 12px 8px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        background: #ffffff;
+        text-align: center;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+      }
+
+      .metric strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 17px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.2;
+      }
+
+      .card,
+      .row-card,
+      .day-card,
+      .slot-card,
+      .carpool-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+      }
+
+      .card {
+        margin-top: 12px;
+        padding: 16px;
+      }
+
+      .section-title {
+        margin: 18px 2px 10px;
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .quote {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-weight: 900;
+      }
+
+      .quote p,
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .quote strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+
+      label {
+        display: block;
+        margin-top: 12px;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      input,
+      select {
+        width: 100%;
+        height: 48px;
+        margin-top: 7px;
+        padding: 0 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        outline: 0;
+        background: #ffffff;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .otp-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .otp-grid input {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .row-card,
+      .day-card,
+      .slot-card,
+      .carpool-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        padding: 14px;
+      }
+
+      .row-card small,
+      .day-card small,
+      .slot-card small,
+      .carpool-card small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.3;
+      }
+
+      .strategy-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .strategy {
+        min-height: 104px;
+        padding: 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        background: #ffffff;
+      }
+
+      .strategy b {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .strategy span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .progress {
+        height: 8px;
+        margin-top: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e2e8f0;
+      }
+
+      .progress div {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--blue);
+      }
+
+      .bottom-nav {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 72px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: center;
+        padding: 4px 10px 8px;
+        border-top: 1px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav-item {
+        color: var(--muted);
+        text-align: center;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .nav-item b {
+        display: block;
+        margin-bottom: 3px;
+        font-size: 16px;
+      }
+
+      .nav-item.active {
+        color: var(--blue);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 10px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .step-number {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--blue-soft);
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .mini-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 7px 0;
+        color: #475569;
+        font-size: 12px;
+      }
+
+      @media (max-width: 1040px) {
+        .intro,
+        .comparison-grid,
+        .screen-grid,
+        .screen-grid.three {
+          grid-template-columns: 1fr;
+        }
+
+        .section-heading {
+          display: block;
+        }
+
+        .section-heading p {
+          margin-top: 8px;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .deck {
+          width: calc(100% - 16px);
+        }
+
+        .demo-tabs {
+          justify-content: flex-start;
+          overflow-x: auto;
+          flex-wrap: nowrap;
+        }
+
+        .phone {
+          min-height: 812px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="demo-tabs" aria-label="Demo sections">
+      <a href="#home-comparison">Home Comparison</a>
+      <a href="#registration">Registration</a>
+      <a href="#planner">Planner</a>
+      <a href="#slots">Slots</a>
+      <a href="#carpool">Carpool</a>
+      <a href="#impact">Impact</a>
+    </nav>
+
+    <main class="deck">
+      <section class="intro">
+        <div>
+          <h1>HUMIQ mobile upgrade demonstration</h1>
+          <p>
+            A revised mockup focused on onboarding first, dashboard second, and a single-day pilot
+            that collects commute behavior data after large-scale pre-enrollment.
+          </p>
+        </div>
+        <div class="review-card" aria-label="Design feedback summary">
+          <div>
+            <strong>Key change</strong>
+            <span>New users see a simple landing onboarding screen, not a dense homepage or plan update prompt.</span>
+          </div>
+          <div>
+            <strong>Access rule</strong>
+            <span>Registration, profile setup, and OTP verification are completed before the commuter dashboard appears.</span>
+          </div>
+          <div>
+            <strong>Pilot framing</strong>
+            <span>The I-582 Peninsula pilot is presented as upcoming single-day data collection with a 50,000 user adoption target.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="home-comparison">
+        <div class="section-heading">
+          <h2>Side-by-side home states</h2>
+          <p>
+            The unregistered user gets a quiet landing page with quick facts and trust-building
+            signals. The registered user gets the action-oriented dashboard.
+          </p>
+        </div>
+
+        <div class="comparison-grid">
+          <article>
+            <div class="screen-label">Home screen for unregistered user</div>
+            <div class="phone no-nav">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <div class="brand">HUMIQ</div>
+                  <span class="pill">Pilot opens soon</span>
+                </div>
+
+                <section class="hero">
+                  <h3>Help shape one better commute day.</h3>
+                  <p>
+                    Join the upcoming I-582 Peninsula pilot before launch day. HUMIQ will use one
+                    coordinated commute event to learn which strategies reduce peak congestion.
+                  </p>
+                  <a class="button" href="#registration">Start registration</a>
+                  <a class="button secondary" href="#registration">See eligibility</a>
+                </section>
+
+                <div class="metrics" aria-label="Pilot quick facts">
+                  <div class="metric"><strong>50K</strong><span>pre-enrollment goal</span></div>
+                  <div class="metric"><strong>1 day</strong><span>pilot data event</span></div>
+                  <div class="metric"><strong>I-582</strong><span>Peninsula corridor</span></div>
+                </div>
+
+                <section class="card quote">
+                  <div class="avatar">MT</div>
+                  <div>
+                    <strong>Mayor Taylor supports coordinated pilot planning</strong>
+                    <p>Community leaders are encouraging commuters to test flexible travel choices together.</p>
+                  </div>
+                </section>
+
+                <section class="card">
+                  <strong>Why sign up early?</strong>
+                  <p>
+                    Early registration helps the pilot team estimate capacity for carpool, transit
+                    assist, work from home, and staggered departure options before the event date.
+                  </p>
+                </section>
+              </main>
+            </div>
+          </article>
+
+          <article>
+            <div class="screen-label">Home screen for returning user</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <div>
+                    <div class="brand">Welcome back</div>
+                    <div class="subline">Profile verified for the I-582 pilot</div>
+                  </div>
+                  <span class="pill">Ready</span>
+                </div>
+
+                <section class="hero">
+                  <h3>Finish your pilot day plan.</h3>
+                  <p>
+                    Choose one commute strategy for each required planning block so the pilot can
+                    forecast behavior before the single-day event.
+                  </p>
+                  <a class="button" href="#planner">Update weekly plan</a>
+                </section>
+
+                <div class="metrics">
+                  <div class="metric"><strong>80%</strong><span>planner complete</span></div>
+                  <div class="metric"><strong>3</strong><span>strategies selected</span></div>
+                  <div class="metric"><strong>2</strong><span>days need choices</span></div>
+                </div>
+
+                <section class="card">
+                  <strong>Popular choices nearby</strong>
+                  <div class="mini-row"><span>Transit Assist</span><b>34%</b></div>
+                  <div class="mini-row"><span>Work From Home</span><b>29%</b></div>
+                  <div class="mini-row"><span>Staggered Departure</span><b>22%</b></div>
+                  <div class="mini-row"><span>Carpool</span><b>15%</b></div>
+                </section>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item active"><b>HM</b>Home</div>
+                <div class="nav-item"><b>PL</b>Plan</div>
+                <div class="nav-item"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="registration">
+        <div class="section-heading">
+          <h2>Registration before dashboard</h2>
+          <p>
+            The profile setup, phone/email details, home/work area, and OTP entry all happen before
+            the commuter reaches the registered user dashboard.
+          </p>
+        </div>
+
+        <div class="screen-grid">
+          <article>
+            <div class="screen-label">Registration: Contact and Route</div>
+            <div class="phone no-nav">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#home-comparison" aria-label="Back">Back</a>
+                  <span class="pill">Step 1 of 3</span>
+                </div>
+                <section class="hero">
+                  <h3>Create your pilot profile.</h3>
+                  <p>Enter contact and commute basics so HUMIQ can confirm eligibility before dashboard access.</p>
+                </section>
+                <label for="name">Full name</label>
+                <input id="name" value="Jordan Singh" />
+                <label for="phone">Phone number</label>
+                <input id="phone" value="(510) 555-0198" />
+                <label for="email">Email</label>
+                <input id="email" value="jordan@example.com" />
+                <label for="home">Home area</label>
+                <input id="home" value="Fremont" />
+                <label for="work">Work area</label>
+                <input id="work" value="Palo Alto" />
+                <a class="button" href="#otp-screen">Send OTP</a>
+              </main>
+            </div>
+          </article>
+
+          <article id="otp-screen">
+            <div class="screen-label">Registration: OTP Verification</div>
+            <div class="phone no-nav">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#registration" aria-label="Back">Back</a>
+                  <span class="pill">Step 2 of 3</span>
+                </div>
+                <section class="hero">
+                  <h3>Verify before entering HUMIQ.</h3>
+                  <p>A one-time passcode confirms that the commuter owns the phone number on the profile.</p>
+                </section>
+                <label>Enter OTP</label>
+                <div class="otp-grid">
+                  <input value="4" aria-label="OTP digit 1" />
+                  <input value="8" aria-label="OTP digit 2" />
+                  <input value="2" aria-label="OTP digit 3" />
+                  <input value="9" aria-label="OTP digit 4" />
+                </div>
+                <section class="card">
+                  <strong>Next screen after verification</strong>
+                  <p>Users land on the returning dashboard only after their profile and OTP are complete.</p>
+                </section>
+                <a class="button" href="#planner">Verify and open dashboard</a>
+                <a class="button secondary" href="#registration">Resend code</a>
+              </main>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="planner">
+        <div class="section-heading">
+          <h2>Planner stage</h2>
+          <p>
+            Selected strategies such as Transit Assist and Work From Home are added to the pilot
+            plan after registration, not before.
+          </p>
+        </div>
+
+        <div class="screen-grid three">
+          <article>
+            <div class="screen-label">Planner: Weekly Strategy Choices</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <div>
+                    <div class="brand">Pilot Planner</div>
+                    <div class="subline">Build your event-day forecast</div>
+                  </div>
+                  <span class="pill">4 of 5</span>
+                </div>
+                <div class="row-card">
+                  <div><b>Monday</b><small>Transit Assist added to planner</small></div>
+                  <span class="badge green">Done</span>
+                </div>
+                <div class="row-card">
+                  <div><b>Tuesday</b><small>Work From Home added to planner</small></div>
+                  <span class="badge green">Done</span>
+                </div>
+                <div class="row-card">
+                  <div><b>Wednesday</b><small>Staggered departure needs a slot</small></div>
+                  <span class="badge amber">Slot</span>
+                </div>
+                <div class="row-card">
+                  <div><b>Thursday</b><small>Carpool host request drafted</small></div>
+                  <span class="badge blue">Review</span>
+                </div>
+                <div class="row-card">
+                  <div><b>Friday</b><small>No strategy selected</small></div>
+                  <span class="badge red">Missing</span>
+                </div>
+                <a class="button" href="#strategy-picker">Add Friday strategy</a>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item active"><b>PL</b>Plan</div>
+                <div class="nav-item"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+
+          <article id="strategy-picker">
+            <div class="screen-label">Planner: Strategy Picker</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#planner" aria-label="Back">Back</a>
+                  <span class="pill">Friday</span>
+                </div>
+                <section class="hero">
+                  <h3>Choose one strategy.</h3>
+                  <p>Each choice updates the planner and improves the single-day demand forecast.</p>
+                </section>
+                <div class="section-title">Available strategies</div>
+                <div class="strategy-grid">
+                  <a class="strategy" href="#planner">
+                    <b>Transit Assist</b>
+                    <span>Use transit guidance and employer shuttle support.</span>
+                    <div class="progress"><div style="width: 34%"></div></div>
+                  </a>
+                  <a class="strategy" href="#planner">
+                    <b>Work From Home</b>
+                    <span>Remove one peak commute from the corridor.</span>
+                    <div class="progress"><div style="width: 29%"></div></div>
+                  </a>
+                  <a class="strategy" href="#slots">
+                    <b>Staggered Departure</b>
+                    <span>Pick an under-filled time window.</span>
+                    <div class="progress"><div style="width: 22%"></div></div>
+                  </a>
+                  <a class="strategy" href="#carpool">
+                    <b>Carpool</b>
+                    <span>Host or join a matched ride.</span>
+                    <div class="progress"><div style="width: 15%"></div></div>
+                  </a>
+                </div>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item active"><b>PL</b>Plan</div>
+                <div class="nav-item"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+
+          <article>
+            <div class="screen-label">Planner: Profile Gate Logic</div>
+            <div class="phone no-nav">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <div class="brand">Access Check</div>
+                  <span class="pill">System</span>
+                </div>
+                <section class="card">
+                  <div class="timeline">
+                    <div class="step">
+                      <span class="step-number">1</span>
+                      <div><b>Registration complete</b><p>Name, phone, email, home area, and work area saved.</p></div>
+                    </div>
+                    <div class="step">
+                      <span class="step-number">2</span>
+                      <div><b>OTP verified</b><p>Phone ownership confirmed before the dashboard appears.</p></div>
+                    </div>
+                    <div class="step">
+                      <span class="step-number">3</span>
+                      <div><b>Dashboard unlocked</b><p>Only verified users can update planner, slot, and carpool choices.</p></div>
+                    </div>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="slots">
+        <div class="section-heading">
+          <h2>Slot stage</h2>
+          <p>
+            Staggered departure is framed as a balancing choice for the upcoming pilot day, with
+            under-filled windows highlighted.
+          </p>
+        </div>
+
+        <div class="screen-grid">
+          <article>
+            <div class="screen-label">Slot Selection</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#planner" aria-label="Back">Back</a>
+                  <div>
+                    <div class="brand">Choose Slot</div>
+                    <div class="subline">I-582 pilot day forecast</div>
+                  </div>
+                </div>
+                <section class="card">
+                  <strong>Balancing rule</strong>
+                  <p>Recommended slots are below the target share and help spread travel demand.</p>
+                </section>
+                <div class="slot-card"><div><b>7:00 AM</b><small>8,400 commuters selected</small></div><span class="badge red">High</span></div>
+                <div class="slot-card"><div><b>7:30 AM</b><small>8,100 commuters selected</small></div><span class="badge amber">Full</span></div>
+                <div class="slot-card"><div><b>8:00 AM</b><small>6,700 commuters selected</small></div><span class="badge blue">Balanced</span></div>
+                <div class="slot-card" style="border: 2px solid #86efac; background: #f0fdf4;"><div><b>8:30 AM</b><small>5,200 commuters selected</small></div><span class="badge green">Recommended</span></div>
+                <div class="slot-card"><div><b>9:00 AM</b><small>4,900 commuters selected</small></div><span class="badge green">Good</span></div>
+                <a class="button" href="#planner">Add 8:30 AM to planner</a>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item active"><b>PL</b>Plan</div>
+                <div class="nav-item"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+
+          <article>
+            <div class="screen-label">Pilot Status Messaging</div>
+            <div class="phone no-nav">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <div class="brand">Pilot Status</div>
+                  <span class="pill">Upcoming</span>
+                </div>
+                <section class="hero">
+                  <h3>The pilot is not live yet.</h3>
+                  <p>
+                    HUMIQ is collecting signups before one coordinated data event. Participants
+                    will receive final instructions when the pilot date is confirmed.
+                  </p>
+                </section>
+                <div class="metrics">
+                  <div class="metric"><strong>50K</strong><span>target users</span></div>
+                  <div class="metric"><strong>1</strong><span>pilot day</span></div>
+                  <div class="metric"><strong>0</strong><span>live trips today</span></div>
+                </div>
+                <section class="card">
+                  <strong>Message rule</strong>
+                  <p>Before launch, use upcoming, pre-enrollment, and pilot date pending instead of live.</p>
+                </section>
+              </main>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="carpool">
+        <div class="section-heading">
+          <h2>Carpool stage</h2>
+          <p>
+            Registered users can host or join after profile verification, and carpool actions add
+            measurable commitments to the pilot forecast.
+          </p>
+        </div>
+
+        <div class="screen-grid">
+          <article>
+            <div class="screen-label">Carpool Host</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#planner" aria-label="Back">Back</a>
+                  <div class="brand">Carpool</div>
+                  <span class="pill">Host</span>
+                </div>
+                <section class="card">
+                  <strong>Create pilot day carpool</strong>
+                  <label for="pickup">Pickup point</label>
+                  <input id="pickup" value="Fremont BART" />
+                  <label for="depart">Departure time</label>
+                  <select id="depart"><option>8:30 AM</option><option>9:00 AM</option></select>
+                  <label for="seats">Seats available</label>
+                  <select id="seats"><option>3 seats</option><option>2 seats</option><option>1 seat</option></select>
+                  <a class="button" href="#impact">Add carpool to planner</a>
+                </section>
+                <div class="section-title">Join requests</div>
+                <div class="carpool-card"><div><b>Ravi</b><small>Fremont to Palo Alto</small></div><span class="badge blue">Approve</span></div>
+                <div class="carpool-card"><div><b>Priya</b><small>Newark to Palo Alto</small></div><span class="badge amber">Review</span></div>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item"><b>PL</b>Plan</div>
+                <div class="nav-item active"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+
+          <article>
+            <div class="screen-label">Carpool Join</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#planner" aria-label="Back">Back</a>
+                  <div class="brand">Join Ride</div>
+                  <span class="pill">Passenger</span>
+                </div>
+                <div class="carpool-card"><div><b>Maya</b><small>8:30 AM from Fremont BART, 2 seats</small></div><span class="badge green">Best</span></div>
+                <div class="carpool-card"><div><b>Arun</b><small>8:45 AM from Warm Springs, 1 seat</small></div><span class="badge blue">Match</span></div>
+                <div class="carpool-card"><div><b>Leah</b><small>9:00 AM from Newark, 3 seats</small></div><span class="badge amber">Later</span></div>
+                <section class="card">
+                  <strong>Before request</strong>
+                  <p>Only verified profiles can request rides, exchange contact details, or commit to pilot day seats.</p>
+                </section>
+                <a class="button" href="#impact">Request Maya's ride</a>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item"><b>PL</b>Plan</div>
+                <div class="nav-item active"><b>CP</b>Carpool</div>
+                <div class="nav-item"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="impact">
+        <div class="section-heading">
+          <h2>Impact after commitment</h2>
+          <p>
+            Impact is shown after the user has registered and selected strategies, keeping the
+            first-time landing page focused and uncluttered.
+          </p>
+        </div>
+
+        <div class="screen-grid">
+          <article>
+            <div class="screen-label">Registered User Impact Dashboard</div>
+            <div class="phone">
+              <div class="status"><span>9:41</span><span>5G</span></div>
+              <main class="app">
+                <div class="topbar">
+                  <a href="#home-comparison" aria-label="Back">Back</a>
+                  <div>
+                    <div class="brand">Your Impact</div>
+                    <div class="subline">Projected for pilot day</div>
+                  </div>
+                  <span class="pill">Top 8%</span>
+                </div>
+                <section class="hero">
+                  <h3>You may remove 4 peak trips.</h3>
+                  <p>Your current plan combines Work From Home, Transit Assist, one staggered slot, and one carpool.</p>
+                  <a class="button secondary" href="#planner">Update planner</a>
+                </section>
+                <div class="metrics">
+                  <div class="metric"><strong>4</strong><span>peak trips reduced</span></div>
+                  <div class="metric"><strong>3</strong><span>strategies used</span></div>
+                  <div class="metric"><strong>2</strong><span>riders helped</span></div>
+                </div>
+                <section class="card">
+                  <strong>Recognition</strong>
+                  <p>Pilot badges unlock after the data event confirms participation.</p>
+                </section>
+              </main>
+              <nav class="bottom-nav">
+                <div class="nav-item"><b>HM</b>Home</div>
+                <div class="nav-item"><b>PL</b>Plan</div>
+                <div class="nav-item"><b>CP</b>Carpool</div>
+                <div class="nav-item active"><b>IN</b>Impact</div>
+              </nav>
+            </div>
+          </article>
+
+          <article>
+            <div class="screen-label">Shareable Review Layout</div>
+            <div class="review-card">
+              <div>
+                <strong>What Participant 1 can edit next</strong>
+                <span>Landing copy, influencer trust message, registration fields, and strategy naming.</span>
+              </div>
+              <div>
+                <strong>What changed from the earlier mockup</strong>
+                <span>The unregistered view has no bottom navigation and does not ask users to update a plan.</span>
+              </div>
+              <div>
+                <strong>What remains intentionally visible</strong>
+                <span>Parallel registered and unregistered states, planner flow, slot flow, carpool flow, and pilot status messaging.</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
